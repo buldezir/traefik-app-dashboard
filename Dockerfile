@@ -1,7 +1,4 @@
-FROM node:19-alpine
-
-ENV PORT=80
-ENV TRAEFIK_API=
+FROM node:19-alpine as build
 
 WORKDIR /app
 
@@ -13,6 +10,21 @@ COPY . .
 
 RUN npm run build
 
+# ---------------
+
+FROM node:19-alpine
+
+ENV PORT=80
+ENV TRAEFIK_API=
+
+WORKDIR /app
+
+COPY --from=build /app/package*.json .
+
+RUN npm ci --production --ignore-scripts
+
+COPY --from=build /app/build .
+
 EXPOSE ${PORT}
 
-CMD ["node", "build"]
+CMD ["node", "./index.js"]
