@@ -15,7 +15,7 @@ const mapHost = (item) => {
 };
 
 const mapName = (item) => {
-	item.name = item.service;
+	item.name = item.name.replace('@docker', '');
 	return item;
 };
 
