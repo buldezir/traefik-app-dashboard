@@ -15,6 +15,7 @@ RUN npm run build
 FROM node:19-alpine
 
 ENV PORT=80
+ENV SHOW_HTTP=0
 ENV TRAEFIK_API=
 
 WORKDIR /app

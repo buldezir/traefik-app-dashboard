@@ -12,5 +12,8 @@ Limitation: only one Host rule per router, so if u need multiple hosts for same 
 accept comma-separated urls to api: 
 `https://sometraefik.host/api/http/routers,http://127.0.0.1:8080/api/http/routers`
 
+`ENV SHOW_HTTP=0`
+by default non tls/https routes will be filtered out
+
 Docker images:
 https://hub.docker.com/r/buldezir/traefik-app-dashboard/tags
