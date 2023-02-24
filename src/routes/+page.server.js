@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { env } from '$env/dynamic/private';
 
 const traefikApis = env.TRAEFIK_API?.split(',');
-const showHTTP = env.SHOW_HTTP || false;
+const showHTTP = Number(env.SHOW_HTTP || 0);
 
 const filterOutSelf = (item) => item.traefik_name !== 'dash@docker' && item.traefik_name !== 'websecure-dash@docker';
 const filterDocker = (item) => item.provider === 'docker';
