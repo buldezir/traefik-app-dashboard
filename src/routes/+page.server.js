@@ -7,7 +7,7 @@ const traefikApis = env.TRAEFIK_API?.split(',');
 const showHTTP = Number(env.SHOW_HTTP || 0);
 
 const filterOutSelf = (item) => item.traefik_name !== 'dash@docker' && item.traefik_name !== 'websecure-dash@docker';
-const filterDocker = (item) => item.provider === 'docker';
+const filterDocker = (item) => item.provider !== 'internal';
 
 const mapHost = (item) => {
 	const m = item.rule.match(/Host\(`(.+)`\)/);
@@ -17,7 +17,9 @@ const mapHost = (item) => {
 
 const mapProps = (item) => {
 	item.traefik_name = item.name;
+	item.service = item.service.replace('api@internal', 'traefik');
 	item.name = item.name.replace('@docker', '');
+	item.name = item.name.replace('@file', '');
 	item.name = item.name.replace('websecure-', '');
 	item.scheme = item.tls ? 'https' : 'http';
 
