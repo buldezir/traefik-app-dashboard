@@ -67,7 +67,9 @@ export async function load({ fetch, params }) {
 	let items = [];
 
 	for (const url of traefikApis) {
-		items = items.concat(await getTraefikRoutes(url));
+		try {
+			items = items.concat(await getTraefikRoutes(url));
+		} catch (e) {}
 	}
 
 
