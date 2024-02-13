@@ -2,11 +2,17 @@ export const ssr = true;
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { env } from '$env/dynamic/private';
+import icons from '../icons.json' assert { type: 'json' };
+
+const iconAliases = {
+	'homeassistant': 'home-assistant',
+};
 
 const traefikApis = env.TRAEFIK_API?.split(',');
 const showHTTP = Number(env.SHOW_HTTP || 0);
 
-const filterOutSelf = (item) => item.traefik_name !== 'dash@docker' && item.traefik_name !== 'websecure-dash@docker';
+const filterOutSelf = (item) =>
+	item.traefik_name !== 'dash@docker' && item.traefik_name !== 'websecure-dash@docker';
 const filterDocker = (item) => item.provider !== 'internal';
 
 const mapHost = (item) => {
@@ -26,8 +32,13 @@ const mapProps = (item) => {
 	return item;
 };
 
-async function getTraefikRoutes(url)
-{
+const mapIcon = (item) => {
+	const key = iconAliases[item.name] ?? item.name;
+	item.icon = icons.find((i) => i === key + ".png");
+	return item;
+}
+
+async function getTraefikRoutes(url) {
 	const res = await fetch(url);
 	let items = await res.json();
 
@@ -35,6 +46,7 @@ async function getTraefikRoutes(url)
 
 	items = items.map(mapHost);
 	items = items.map(mapProps);
+	items = items.map(mapIcon);
 
 	items = items.filter(filterOutSelf);
 
@@ -63,7 +75,6 @@ async function getTraefikRoutes(url)
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ fetch, params }) {
-
 	let items = [];
 
 	for (const url of traefikApis) {
@@ -72,12 +83,11 @@ export async function load({ fetch, params }) {
 		} catch (e) {}
 	}
 
-
 	const grouped = items.reduce(function (r, a) {
-        r[a.source_url] = r[a.source_url] || [];
-        r[a.source_url].push(a);
-        return r;
-    }, Object.create(null));
-	
+		r[a.source_url] = r[a.source_url] || [];
+		r[a.source_url].push(a);
+		return r;
+	}, Object.create(null));
+
 	return { grouped };
 }

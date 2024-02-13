@@ -16,12 +16,16 @@
 		<h2 class="pb-2 border-bottom">{grp}</h2>
 
 		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
-			{#each items as { name, host, scheme }}
+			{#each items as { name, host, scheme, icon }}
 				<div class="col d-flex align-items-start">
 					<div>
 						<h3 class="fw-bold mb-0 fs-4">
-							<a href="{scheme}://{host}" target="_blank" rel="noreferrer">
-								<i class="bi {scheme === 'https' ? 'bi-lock-fill' : 'bi-box-arrow-up-right'} text-muted flex-shrink-0 me-1"></i>{name}
+							<a href="{scheme}://{host}" target="_blank" rel="noreferrer" class="text-decoration-none">
+								{#if icon }
+									<img class="bi" src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/{icon}" alt="{icon}" height="32">
+								{:else}
+									<i class="bi {scheme === 'https' ? 'bi-lock-fill' : 'bi-box-arrow-up-right'} text-muted flex-shrink-0 me-0"></i>
+								{/if}<span class="text-decoration-underline">{name}</span>
 							</a>
 						</h3>
 						<!-- <p>desc</p> -->
