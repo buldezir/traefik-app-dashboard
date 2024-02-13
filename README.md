@@ -17,3 +17,6 @@ by default non tls/https routes will be filtered out
 
 Docker images:
 https://hub.docker.com/r/buldezir/traefik-app-dashboard/tags
+
+
+![Screenshot](screenshot.png)
