@@ -34,7 +34,7 @@ const mapProps = (item) => {
 
 const mapIcon = (item) => {
 	const key = iconAliases[item.name] ?? item.name;
-	item.icon = icons.find((i) => i === key + ".png");
+	item.icon = icons.png.find((i) => i === key + ".png");
 	return item;
 }
 
